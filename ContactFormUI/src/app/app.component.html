@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <div style="display: inline-block; margin-left: 25px; margin-top: 25px;">
+      <div class="form">
+        <div class="shadow_background">
+          <div class="title_background">
+            <p class="title_text">Напишите нам</p>
+          </div>
+        </div>
+        <div class="title_background_left_rectangle"></div>
+        <div *ngIf="contact">
+          <div class="field">
+            <p class ="field_text">Ваше имя:</p>
+            <input class="input input_user" [(ngModel)] = "contact.name" type="text">
+          </div>
+          <div class="field">
+            <p class ="field_text">Ваш Email:</p>
+            <input class="input input_email" [(ngModel)] = "contact.email" type="email">
+          </div>
+          <div class="field">
+            <p class ="field_text">Ваш телефон:</p>
+            <input class="input number input_phone" [(ngModel)] = "contact.phone" type="number">
+          </div>
+        </div>
+        <div class="field" *ngIf="message">
+          <p class ="field_text" style="margin-top: 15px;">Тема:</p>
+            <select id="select_theme" [(ngModel)] = "message.text">
+              <option value="Техподдержка">Техподдержка</option>
+              <option value="Продажи">Продажи</option>
+              <option value="Другое">Другое</option>
+              <option value="Еще один пункт">Еще один пункт</option>
+            </select>
+        </div>
+        <div class="field" *ngIf="themeMessage">
+          <p class ="field_text">Ваше сообщение:</p>
+          <textarea class="input_message" [(ngModel)] = "themeMessage.themeMessage"></textarea>
+        </div>
+        <div class="field">
+          <p class ="field_text" style="margin-top: 20px;">Цифры:</p>
+          <input class="input_code number" type="" [(ngModel)] = "entered_code" type="number" maxlength="5">
+          <div class="code">
+            {{code}}
+            <hr class="line">
+            <hr class="line2">
+            <hr class="line3">
+            <hr class="line4">
+            <hr class="line5">
+            <hr class="line6">
+          </div>
+        </div>
+        <div>
+          <button (click)="submit()">Отправить письмо!</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
