@@ -1,5 +1,11 @@
 export class Messages{
     id?: number;
     text = "";
-    contactId?: number
+    contactDataId?: number
+    themesMessagesDataId?: number
+
+    constructor(text: string, themesMessagesDataId: number){
+        this.text = text;
+        this.themesMessagesDataId = themesMessagesDataId
+    }
 }

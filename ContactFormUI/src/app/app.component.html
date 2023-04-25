@@ -3,58 +3,93 @@
   <head>
   </head>
   <body>
-    <div style="display: inline-block; margin-left: 25px; margin-top: 25px;">
-      <div class="form">
+    <div style="display: inline-block; margin-left: 25px; margin-top: 25px;" *ngIf="!done">
+      <form  [formGroup] = "formGrp" class="form" novalidate>
         <div class="shadow_background">
           <div class="title_background">
             <p class="title_text">Напишите нам</p>
           </div>
         </div>
         <div class="title_background_left_rectangle"></div>
-        <div *ngIf="contact">
+        <div>
           <div class="field">
             <p class ="field_text">Ваше имя:</p>
-            <input class="input input_user" [(ngModel)] = "contact.name" type="text">
+            <input class="input input_user" formControlName="name" type="text">
           </div>
+
+          <div *ngIf="status['name'].touched && status['name'].invalid">
+            <div *ngIf="status['name'].errors?.['required'] && status['name'].dirty" class="show-error">Введите имя</div>
+          </div>
+
           <div class="field">
             <p class ="field_text">Ваш Email:</p>
-            <input class="input input_email" [(ngModel)] = "contact.email" type="email">
+            <input class="input input_email" formControlName = "email" type="email">
           </div>
+
+          <div *ngIf="status['email'].touched && status['email'].invalid">
+            <div *ngIf="status['email'].errors?.['required'] && status['email'].dirty" class="show-error">Введите email</div>
+            <div *ngIf="status['email'].errors?.['email'] && status['email'].dirty" class="show-error">Введите корректный email</div>
+          </div>
+
           <div class="field">
             <p class ="field_text">Ваш телефон:</p>
-            <input class="input number input_phone" [(ngModel)] = "contact.phone" type="number">
+            <input class="input number input_phone" formControlName="phone" maxlength="11" (keypress)="onKeyPress($event, regexpPhone)" placeholder="8(xxx)xxx-xx-xx">
           </div>
-        </div>
-        <div class="field" *ngIf="message">
-          <p class ="field_text" style="margin-top: 15px;">Тема:</p>
-            <select id="select_theme" [(ngModel)] = "message.text">
-              <option value="Техподдержка">Техподдержка</option>
-              <option value="Продажи">Продажи</option>
-              <option value="Другое">Другое</option>
-              <option value="Еще один пункт">Еще один пункт</option>
-            </select>
-        </div>
-        <div class="field" *ngIf="themeMessage">
-          <p class ="field_text">Ваше сообщение:</p>
-          <textarea class="input_message" [(ngModel)] = "themeMessage.themeMessage"></textarea>
+
+          <div *ngIf="status['phone'].touched && status['phone'].invalid">
+            <div *ngIf="status['phone'].errors?.['required'] && status['phone'].dirty" class="show-error">Введите номер телефона</div>
+            <div *ngIf="status['phone'].errors?.['pattern'] && status['phone'].dirty" class="show-error">Присутствуют недопустимые символы</div>
+          </div>
+
         </div>
         <div class="field">
+          <p class ="field_text" style="margin-top: 15px;">Тема:</p>
+            <select id="select_theme" formControlName="selectedTheme">
+              <option *ngFor="let item of ThemesList" value={{item.id}}>{{item.theme}}</option>
+            </select>
+        </div>
+
+        <div class="field">
+          <p class ="field_text">Ваше сообщение:</p>
+          <textarea class="input_message" formControlName="message"></textarea>
+        </div>
+
+        <div *ngIf="status['message'].touched && status['message'].invalid">
+          <div *ngIf="status['message'].errors?.['required'] && status['message'].dirty" class="show-error">Введите текст сообщения</div>
+        </div>
+
+        <div class="field">
           <p class ="field_text" style="margin-top: 20px;">Цифры:</p>
-          <input class="input_code number" type="" [(ngModel)] = "entered_code" type="number" maxlength="5">
+          <input class="input_code number" formControlName="entered_code" maxlength="5" (keypress)="onKeyPress($event, regexpCode)">
           <div class="code">
             {{code}}
-            <hr class="line">
-            <hr class="line2">
-            <hr class="line3">
-            <hr class="line4">
-            <hr class="line5">
-            <hr class="line6">
+            <hr *ngFor="let item of LinesList" class={{item}}>
           </div>
         </div>
-        <div>
-          <button (click)="submit()">Отправить письмо!</button>
+
+        <div *ngIf="status['entered_code'].touched && status['entered_code'].invalid">
+          <div *ngIf="status['entered_code'].errors?.['required'] && status['entered_code'].dirty" class="show-error">Введите проверочный код</div>
+          <div *ngIf="status['entered_code'].errors?.['pattern'] && status['entered_code'].dirty" class="show-error">Присутствуют недопустимые символы</div>
         </div>
-      </div>
+
+        <div>
+          <button type="submit" [disabled]="!formGrp.valid" (click)="submit()">Отправить письмо!</button>
+        </div>
+      </form>
+    </div>
+
+    <div *ngIf="done" class="output">
+      <p class="title_output">Сообщение отправлено!</p>
+      <p class="title_output_text">Имя</p>
+      <p class="output_text">{{formGrp.value.name}}</p>
+      <p class="title_output_text">Email</p>
+      <p  class="output_text">{{formGrp.value.email}}</p>
+      <p class="title_output_text">Номер телефона</p>
+      <p  class="output_text">{{formGrp.value.phone}}</p>
+      <p class="title_output_text">Тема сообщения</p>
+      <p class="output_text">{{themeName}}</p>
+      <p class="title_output_text">Текст сообщения</p>
+      <p  class="output_text">{{formGrp.value.message}}</p>
     </div>
   </body>
 </html>

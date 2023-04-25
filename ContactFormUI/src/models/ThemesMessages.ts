@@ -1,5 +1,7 @@
+import { Messages } from "./Messages";
+
 export class ThemesMessages{
     id?: number;
-    themeMessage = "";
-    contactId?: number
+    theme = "";
+    messages?: Messages;
 }

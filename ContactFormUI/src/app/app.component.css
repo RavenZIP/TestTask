@@ -210,6 +210,13 @@ body{
     rotate: 90deg;
 }
 
+.show-error{
+    padding-left: 105px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: red
+}
+
 /* Стили полей ввода (конец) */
 
 /* Стили выпадающего списка (начало) */
@@ -254,3 +261,29 @@ button:hover{
 }
 
 /* Стили для кнопки (конец) */
+
+/* Стили для выходной информации (начало) */
+
+.output{
+    background-color: #c4ffce;
+    display: inline-block;
+    border-radius: 20px;
+    padding: 20px;
+    margin-left: 25px;
+    margin-top: 25px;
+    max-width: 400px;
+}
+
+.title_output{
+    font-size: 26px;
+}
+
+.title_output_text{
+    font-size: 20px;
+}
+
+.output_text{
+    font-size: 16px;
+}
+
+/* Стили для выходной информации (конец) */
